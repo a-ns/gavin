@@ -1,12 +1,18 @@
 {
   "name": "typescript-react-webpack",
+  "version": "1.0.0",
   "scripts": {
     "start": "webpack -d && webpack-dev-server --inline --hot",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "search": "",
-  "author": "Alex Lindemann",
+  "search": "Development environment for React and Typescript",
+  "keywords": ["react", "webpack", "typescript"],
+  "author": {
+    "name": "Alex Lindemann",
+    "email": "exmann94@gmail.com",
+    "url": "https://github.com/a-ns"
+    },
   "devDependencies": {
     "awesome-typescript-loader": "^3.1.2",
     "typescript": "^2.2.2",
