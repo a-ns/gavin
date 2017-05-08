@@ -1,6 +1,7 @@
 var path = require('path')
 
 var config = {
+  devtool: 'source-map',
   /*
    * app.ts represents the entry point to your web application. Webpack will
    * recursively go through every 'require' statement in app.ts and
