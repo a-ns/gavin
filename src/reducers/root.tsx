@@ -8,33 +8,52 @@ function pointInCircle(x, y, cx, cy, radius) {
 }
 
 import { NODE , EDGE } from '../actions/action-types'
-export const reducer = (state: {nodes: Object, edges: Object} = {nodes: {}, edges: {}}, action: any) => {
+export const reducer = (state: {nodes: Object, edges: Object, currentMode: Function} = {nodes: {}, edges: {}, currentMode: () => {}}, action: any) => {
   switch (action.type) {
+    case ('CHANGEMODE'):
+      // changes the function that is called when clicking on the canvas
+      state = {...state, currentMode: action.payload}
+      break;
     case (EDGE.ADD):
       state = {...state, edges: {...state.edges}}
       state.edges[action.payload.id] = action.payload
-      //state = {...state, edges: {...state.edges, action.payload.id: action.paylod}}
       break;
     case (EDGE.DELETE):
       if (action.payload.id in state.edges) {
         state = {...state}
         delete state.edges[action.payload.id]
       }
-    //  state = {...state, edges: state.edges.filter((edge) => edge.id != action.payload.id)}
       break;
     case (EDGE.ERROR):
       break;
     case (NODE.ADD):
       state = {...state, nodes: {...state.nodes }}
       state.nodes[action.payload.id] = action.payload
-  //    state = {...state, nodes: state.nodes.concat(action.payload)}
-    //  break;
+      break;
     case (NODE.DELETE):
+      let nodeToRemove = Object.keys(state.nodes).filter((key) => {
+
+        return (pointInCircle(action.payload.x, action.payload.y, state.nodes[key].x, state.nodes[key].y, 25))
+      })[0]
+      if(!nodeToRemove) break;
+      action.payload.id = nodeToRemove
+    case (NODE.DELETE_ID):
+      state = {...state, nodes: {...state.nodes}, edges: {...state.edges}}
+      delete state.nodes[action.payload.id]
       // delete any edges that contain this node
-  //    const _node = state.nodes.filter((node) => pointInCircle(action.payload.x, action.payload.y, node.x, node.y, 25))[0]
-  //    const edges = state.edges.filter((edge) => edge.from.id !== _node.id && edge.to.id !== _node.id)
-  //    const nodes = state.nodes.filter((node) => node !== _node)
-  //    state = {...state, edges, nodes}
+      Object.keys(state.edges).map((key) => {
+        const edge = state.edges[key]
+        const nodeToRemoveID = action.payload.id
+
+        // Find each edge in state.edges that contain the nodes ID in edge.from || edge.to
+        // and add it to an array
+        let edgesToRemove = []
+        if (edge.from === nodeToRemoveID || edge.to == nodeToRemoveID) {
+          edgesToRemove.push(edge) // might be able to just delete right here instaed
+        }
+        // delete each of the found edges
+        edgesToRemove.map((edge) => {delete state.edges[edge.id]})
+      })
       break;
     case (NODE.ERROR):
       break;

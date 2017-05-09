@@ -24,9 +24,7 @@ class Canvas extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.renderNode = this.renderNode.bind(this)
-    // this.renderEdge = this.renderEdge.bind(this)
-    // this.renderNodes = this.renderNodes.bind(this)
-    // this.renderEdges = this.renderEdges.bind(this)
+    this.renderEdge = this.renderEdge.bind(this)
   }
 
   renderNode (node: any) {
@@ -49,7 +47,6 @@ class Canvas extends React.Component<any, any> {
   }
 
   render () {
-    let that = this
     const nodeKeys = Object.keys(this.props.nodes)
     const edgeKeys = Object.keys(this.props.edges)
     return (<div id='canvas' style={{'height': '100vh'}} onClick={this.props.addVertex}>

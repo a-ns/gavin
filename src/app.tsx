@@ -27,3 +27,4 @@ store.dispatch(nodeActions.addVertex(800, 675))
 
 store.dispatch(edgeActions.addEdge(Object.keys(store.getState().nodes).map(function (key) {return store.getState().nodes[key]})[0], Object.keys(store.getState().nodes).map(function (key) {return store.getState().nodes[key]})[1]))
 store.dispatch(edgeActions.addEdge(Object.keys(store.getState().nodes).map(function (key) {return store.getState().nodes[key]})[1], Object.keys(store.getState().nodes).map(function (key) {return store.getState().nodes[key]})[2]))
+setTimeout(() => {store.dispatch(nodeActions.deleteVertex(300,150))}, 2000)
