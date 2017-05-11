@@ -1,7 +1,8 @@
+
 interface EDGE_T {
-  from: String,
-  to: String,
-  id: String
+  from: string,
+  to: string,
+  id: string
 }
 
 export default EDGE_T

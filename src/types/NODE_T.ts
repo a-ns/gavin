@@ -1,7 +1,7 @@
 
 interface NODE_T {
-  id: String,
-  x: Number,
-  y: Number,
+  id: string,
+  x: number,
+  y: number,
 }
 export default NODE_T
