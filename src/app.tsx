@@ -26,7 +26,7 @@ ReactDOM.render(
   </MuiThemeProvider>
 , document.getElementById('react-root'))
 
-// 
+
 // store.dispatch(nodeActions.addVertex(100, 200))
 // store.dispatch(nodeActions.addVertex(300, 150))
 // store.dispatch(nodeActions.addVertex(800, 675))
