@@ -2,7 +2,7 @@
   "name": "typescript-react-webpack",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack -d && webpack-dev-server --inline --hot",
+    "start": "webpack -d && webpack-dev-server --hot --inline",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,6 +36,7 @@
     "@types/react-redux": "^4.4.40",
     "@types/redux-logger": "^3.0.0",
     "@types/uuid": "^2.0.29",
+    "deep-copy": "^1.2.0",
     "material-ui": "^0.17.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

@@ -5,7 +5,7 @@ import EDGE_T from '../types/EDGE_T';
 import { ControlsConstants } from '../Controls-Constants';
 import STATE_T from '../types/STATE_T'
 import * as uuid from 'uuid'
-
+import * as dcopy from 'deep-copy'
 const initialState = {
 	nodes: {},
 	edges: {},
@@ -42,24 +42,18 @@ export const reducer = (state: STATE_T = initialState, action: any) => {
 		}
 		case EDGE.ADD_ID: { // {from, to, id}
 			const payload: EDGE_T = action.payload;
-			state = {
-				...state,
-				edges: { ...state.edges },
-				nodes: { ...state.nodes }
-			};
-			state.nodes[payload.from].edges.push(payload.id);
+			state = dcopy(state)
+			state.nodes[payload.from].edges = [...state.nodes[payload.from].edges, (payload.id)];
+			state.nodes[payload.to].edges = [...state.nodes[payload.to].edges, payload.id]
 			state.edges[payload.id] = payload
 			state.drawingLine.node1Selected = false; state.drawingLine.node1 = undefined;
 			break;
 		}
 		case EDGE.DELETE: {
+			console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
 			if (action.payload.id in state.edges) {
 				// make a new copy of state
-				state = {
-					...state,
-					edges: { ...state.edges },
-					nodes: { ...state.nodes }
-				};
+				state = dcopy(state)
 
 				// delete this edge from each node (edge.from.edges && edge.to.edges)
 				// do the thing
@@ -79,10 +73,7 @@ export const reducer = (state: STATE_T = initialState, action: any) => {
 			break;
 		}
 		case NODE.ADD: {
-			state = {
-				...state,
-				nodes: { ...state.nodes }
-			};
+			state = dcopy(state)
 			state.nodes[action.payload.id] = action.payload;
 			break;
 		}
@@ -100,22 +91,17 @@ export const reducer = (state: STATE_T = initialState, action: any) => {
 			action.payload.id = nodeToRemove;
 		}
 		case NODE.DELETE_ID: {
-			state = {
-				...state,
-				nodes: { ...state.nodes },
-				edges: { ...state.edges }
-			};
-			delete state.nodes[action.payload.id];
-			// delete any edges that contain this node
-			Object.keys(state.edges).map(key => {
-				const edge = state.edges[key];
-				const nodeToRemoveID = action.payload.id;
+			state = dcopy(state)
 
-				// Find each edge in state.edges that contain the nodes ID in edge.from || edge.to
-				if (edge.from === nodeToRemoveID || edge.to == nodeToRemoveID) {
-					delete state.edges[edge.id];
-				}
-			});
+			// for each edge in the node to delete
+			state.nodes[action.payload.id].edges.map((key) => {
+				state.nodes[state.edges[key].from].edges = removeEdgeIDfromArrayOfEdgeID( state.nodes[state.edges[key].from].edges , key)
+				state.nodes[state.edges[key].to].edges = removeEdgeIDfromArrayOfEdgeID( state.nodes[state.edges[key].to].edges , key)
+				// now delete that key from the edges
+				delete state.edges[key]
+
+			})
+			delete state.nodes[action.payload.id];
 			break;
 		}
 		case NODE.ERROR: {
@@ -143,4 +129,11 @@ function selectedNode(nodes, e: MouseEvent) {
 	})[0];
 }
 
+function removeEdgeIDfromArrayOfEdgeID(edgeIDs, edgeID) {
+	return edgeIDs.filter(element => element !== edgeID)
+}
+//     + 453 hidden modules
+// Project is running at http://localhost:8080/
+// webpack output is served from /build
+// Content not from webpack is served from D:\Documents\Docs\Learning\redux-simple\build
 // export const reducer = combineReducers({nodes: nodeReducer, edges: edgeReducer})
