@@ -6,7 +6,7 @@ import EDGE_T from '../types/EDGE_T'
 
 export function addEdge(from: NODE_T, to: NODE_T) {
   return {
-    type: EDGE.ADD,
+    type: EDGE.ADD_ID,
     payload: {
       from: from.id,
       to: to.id,
@@ -20,5 +20,12 @@ export function deleteEdge(id: String) {
     payload: {
       id
     }
+  }
+}
+
+export function addEdgeByClick(e: MouseEvent) {
+  return {
+    type: EDGE.ADD,
+    payload: e
   }
 }
