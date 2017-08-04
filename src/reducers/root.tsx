@@ -6,10 +6,11 @@ import { ControlsConstants } from '../Controls-Constants';
 import STATE_T from '../types/STATE_T'
 import * as uuid from 'uuid'
 import * as dcopy from 'deep-copy'
+
 const initialState = {
 	nodes: {},
 	edges: {},
-	currentMode: () => { console.log('hey my dude')},
+	currentMode: () => { },
 	controlsSelected: ControlsConstants.NONE,
 	drawingLine: {node1Selected: false, node1: undefined, node2: undefined}
 }
@@ -50,7 +51,6 @@ export const reducer = (state: STATE_T = initialState, action: any) => {
 			break;
 		}
 		case EDGE.DELETE: {
-			console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
 			if (action.payload.id in state.edges) {
 				// make a new copy of state
 				state = dcopy(state)
@@ -132,8 +132,3 @@ function selectedNode(nodes, e: MouseEvent) {
 function removeEdgeIDfromArrayOfEdgeID(edgeIDs, edgeID) {
 	return edgeIDs.filter(element => element !== edgeID)
 }
-//     + 453 hidden modules
-// Project is running at http://localhost:8080/
-// webpack output is served from /build
-// Content not from webpack is served from D:\Documents\Docs\Learning\redux-simple\build
-// export const reducer = combineReducers({nodes: nodeReducer, edges: edgeReducer})

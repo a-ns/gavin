@@ -1,11 +1,11 @@
-import { store } from './store/store'
+import { setupStore } from './store/store'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import * as injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import {MuiThemeProvider, lightBaseTheme} from "material-ui/styles"
-
+import logger from 'redux-logger';
 
 import Canvas from './components/Canvas'
 import Controls from './components/Controls'
@@ -14,6 +14,8 @@ import * as edgeActions from './actions/edgeActions'
 const lightMuiTheme = getMuiTheme(lightBaseTheme);
 
 injectTapEventPlugin();
+
+const store = setupStore({middlewares: [logger]})
 
 ReactDOM.render(
   <MuiThemeProvider muiTheme={lightMuiTheme}>

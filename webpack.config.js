@@ -1,5 +1,5 @@
 var path = require('path')
-
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 var config = {
   devtool: 'source-map',
   /*
@@ -16,7 +16,7 @@ var config = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
-    publicPath: '/build'
+    publicPath: ''
   },
 
   /*
@@ -43,7 +43,12 @@ var config = {
         exclude: /node_modules/
       }
     ]
-  }
+  },
+  plugins: [new HtmlWebpackPlugin({
+              title: 'Gavin',
+              template: 'build-template.ejs',
+            })
+          ]
 }
 
 module.exports = config
